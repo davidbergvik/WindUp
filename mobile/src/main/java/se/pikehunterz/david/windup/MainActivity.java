@@ -31,17 +31,18 @@ public class MainActivity extends Activity {
     boolean isLoading = true;
 
     public Double currentWind;
-
     public String windString;
+    public String windDirection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button b1;
-        final TextView tv;
+        final TextView tv, tv1;
         b1 = (Button) findViewById(R.id.button);
         tv = (TextView) findViewById(R.id.textViewTest);
+        tv1 = (TextView) findViewById(R.id.textView);
         rl_arrow = (RelativeLayout) findViewById(R.id.rl_arrow);
         iv_circle = (ImageView) findViewById(R.id.circle);
         b1.setOnClickListener(new View.OnClickListener() {
@@ -63,8 +64,14 @@ public class MainActivity extends Activity {
                                     currentWind = data.getValues().get(0);
                                     tv.setText(currentWind.toString());
                                 }
-
                             }
+                            if(data.getName().equals("wd")){
+                                if(data.getValues().get(0) != null){
+                                    windDirection = data.getValues().get(0).toString();
+                                    tv1.setText(windDirection);
+                                }
+                            }
+
                         }
 
                         //tv.setText((Double.toString(currentWind)));
