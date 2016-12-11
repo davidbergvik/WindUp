@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -14,6 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:text="Hello World!"
         android:id="@+id/textView" />
 
@@ -33,5 +35,61 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/button" />
+        android:id="@+id/button"
+        android:background="@android:color/black" />
+=======
+        android:text="Hämtar din position.."
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+
+            android:id="@+id/circle"
+            android:background="@drawable/circle"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:rotationY="0"
+            android:rotationX="0"
+            android:id="@+id/rl_arrow">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:id="@+id/imageView2"
+                android:background="@drawable/arrow"
+                android:layout_marginLeft="75dp"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:alpha="0">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
 </RelativeLayout>
