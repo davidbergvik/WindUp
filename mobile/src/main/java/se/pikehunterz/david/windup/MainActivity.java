@@ -1,6 +1,10 @@
 package se.pikehunterz.david.windup;
 
 import android.app.Activity;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -28,7 +32,8 @@ import android.widget.RelativeLayout;
 import java.io.Console;
 import java.util.Random;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
+    CompassManager compassM;
     RelativeLayout rl_arrow;
     ImageView iv_circle;
     TextView tv_windSpeed;
@@ -42,23 +47,21 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        currentWindAngle = 0;
+        isLoading = true;
         Button b1;
-        final TextView tv, tv1;
-        b1 = (Button) findViewById(R.id.button);
         tv_windSpeed = (TextView) findViewById(R.id.textViewTest);
-        tv1 = (TextView) findViewById(R.id.textView);
         rl_arrow = (RelativeLayout) findViewById(R.id.rl_arrow);
         iv_circle = (ImageView) findViewById(R.id.circle);
-        isLoading = true;
+        compassM = new CompassManager((SensorManager) getSystemService(SENSOR_SERVICE),rl_arrow);
+        b1 = (Button) findViewById(R.id.button);
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadPosition();
             }
         });
-
-
-
 
         startSpinning();
     }
@@ -129,7 +132,7 @@ public class MainActivity extends Activity {
     }
 
     public void startSpinning() {
-        ani_rotate = new RotateAnimation(0,360, Animation.RELATIVE_TO_SELF,0.5f , Animation.RELATIVE_TO_SELF,0.5f );
+        ani_rotate = new RotateAnimation(currentWindAngle,360, Animation.RELATIVE_TO_SELF,0.5f , Animation.RELATIVE_TO_SELF,0.5f );
         ani_rotate .setDuration(2000);
         ani_rotate .setRepeatCount(Animation.INFINITE);
         ani_rotate .setAnimationListener(new Animation.AnimationListener() {
@@ -155,7 +158,7 @@ public class MainActivity extends Activity {
     }
     private void animateToCurrentWindAngle(final int direction){
         RotateAnimation ani_setWindRotation = new RotateAnimation(0,direction, Animation.RELATIVE_TO_SELF,0.5f , Animation.RELATIVE_TO_SELF,0.5f );
-        ani_setWindRotation.setDuration(700);
+        ani_setWindRotation.setDuration(400);
         ani_setWindRotation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {}
@@ -168,9 +171,23 @@ public class MainActivity extends Activity {
                 rl_arrow.setRotation(currentWindAngle);
             }
         });
+
         rl_arrow.startAnimation(ani_setWindRotation );
 
     }
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        int newCompassAngle = (int) compassM.sensorChanged(event);
+       // animateToCurrentWindAngle(currentWindAngle-newCompassAngle);
+        TextView cText = (TextView) findViewById(R.id.compassText);
+        cText.setText("Kompass aktiv, nuvarande rikting:" + newCompassAngle);
 
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        // not in use
+
+    }
 
 }
